@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Order Confirmation | Venus Magic Cosmetics</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navbar -->
+     
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo.png" width="125px">
+                </a>
+            </div>
+            <nav>
+                <ul id="MenuItems">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="Collections.html">Collections</a></li>
+                    <li><a href="ShopAll.html">Shop All</a></li>
+                    <li><a href="Body.html">Body</a></li>
+                    <li><a href="Face.html">Face</a></li>
+                    <li><a href="Eyes.html">Eyes</a></li>
+                    <li><a href="Lips.html">Lips</a></li>
+                    <li><a href="Gift.html">Gift</a></li>
+                    <li><a href="Contact.html">Contact</a></li>
+                    <li><a href="About.html">About</a></li>
+                </ul>
+            </nav>
+        
+            <!-- Cart Icon with Counter -->
+            <a href="cart.html" class="cart-icon">
+                <img src="images/cart.png" width="30px" height="30px" alt="Cart">
+                <span id="cart-count" class="cart-badge"></span>
+            </a>
+        
+            <img src="images/menu.png" class="menu-icon" onclick="menutoggle()">
+        </div>   
+    </div>
+
+
+    <div class="small-container">
+        <h2>Thank You for Your Purchase!</h2>
+        <p>Your order has been successfully placed.</p>
+      
+        <div class="order-summary">
+            <h3>Order Details</h3>
+            <p><strong>Order Number:</strong> <span id="order-number"></span></p>
+            <p><strong>Name:</strong> <span id="customer-name"></span></p>
+            <p><strong>Email:</strong> <span id="customer-email"></span></p>
+            <p><strong>Payment Method:</strong> <span id="payment-method"></span></p>
+            <p><strong>Shipping Address:</strong> <span id="shipping-address"></span></p>
+            <p><strong>Order Status:</strong> <span id="order-status"></span></p>
+            <p><strong>Payment Status:</strong> <span id="payment-status"></span></p>
+            <p><strong>Estimated Delivery:</strong> <span id="delivery-date"></span></p>
+          
+            <h4>Items Ordered:</h4>
+            <ul id="order-items-list"></ul>
+          
+            <p><strong>Total:</strong> $<span id="order-total"></span></p>
+          </div>
+    </div>          
+
+    <!-- Customer Service Chat Box -->
+<div id="chat-container">
+    <div id="chat-header" onclick="toggleChat()">💬 Chat with Us</div>
+    <div id="chat-body">
+      <div id="chat-messages"></div>
+      <input type="text" id="chat-input" placeholder="Type your message..." onkeypress="handleKeyPress(event)" />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+
+
+ <!-- Footer -->
+ <div class="footer">
+  <div class="container">
+      <div class="row">
+          <div class="footer-col-1">
+              <h3>Shop </h3>
+              <ul>
+                <li><a href="index.html">Home</a></li>
+                <li> <a href="Collections.html">Collections</a></li> 
+                <li><a href="ShopAll.html">Shop All</a></li>
+            </ul>
+              
+          </div>
+          <div class="footer-col-2">
+              <h3>Follow our brand </h3>
+              <p> Follow our brand on our social media platforms.</p>
+              <ul>
+                  <li>Instagram</li>
+                  <li>Facebook</li>
+                  <li>Twitter</li>
+              </ul>
+          </div>
+          <div class="footer-col-1">
+              <h3>Useful Links</h3>
+              <ul>
+                <li><a href="Contact.html">Contact</a></li>
+                  <li>Return Policy</li>
+                  <li><a href="About.html">About</a></li>
+              </ul>
+          </div>
+    </div>   
+    <hr>
+  <p class="Copyrigth"> Copyrigth @2025 Venuz Magic Comestics | All Rights Reserved</p>
+ </div>         
+ </div>
+
+
+  
+
+
+<script>
+    // Retrieve order details from local storage
+    const order = JSON.parse(localStorage.getItem('orderDetails'));
+    
+    // Display order information if available
+    if (order) {
+      document.getElementById('order-number').innerText = order.orderNumber || 'N/A';
+      document.getElementById('customer-name').innerText = order.customerName || 'N/A';
+      document.getElementById('customer-email').innerText = order.email || 'N/A';
+      document.getElementById('payment-method').innerText = order.paymentMethod || 'N/A';
+      document.getElementById('shipping-address').innerText = order.shippingAddress || 'N/A';
+      document.getElementById('order-status').innerText = order.orderStatus || 'N/A';
+      document.getElementById('payment-status').innerText = order.paymentStatus || 'N/A';
+      document.getElementById('delivery-date').innerText = order.deliveryDate || 'N/A';
+      document.getElementById('order-total').innerText = order.orderTotal || '0.00';
+    
+      // Display ordered items
+      const orderItemsList = document.getElementById('order-items-list');
+      order.orderItems.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.name} (${item.quantity} x $${item.price.toFixed(2)})`;
+        orderItemsList.appendChild(li);
+      });
+    } else {
+      document.querySelector('.order-summary').innerHTML = "<p>No order details found.</p>";
+    }
+    
+    // Clear order details from local storage after display
+    localStorage.removeItem('orderDetails');
+    </script>
+    
+    <script>
+        // Chat Toggle Function
+        function toggleChat() {
+          const chatBody = document.getElementById('chat-body');
+          chatBody.style.display = chatBody.style.display === 'flex' ? 'none' : 'flex';
+        }
+        
+        // Handle 'Enter' Key
+        function handleKeyPress(event) {
+          if (event.key === 'Enter') {
+            sendMessage();
+          }
+        }
+        
+        // Function to Send Message
+        function sendMessage() {
+          const input = document.getElementById('chat-input');
+          const message = input.value.trim();
+          if (message) {
+            addMessage('You', message, 'user-message');
+            input.value = '';
+        
+            // Simulate Bot Response
+            setTimeout(() => {
+              const botResponse = getBotResponse(message);
+              addMessage('Support', botResponse, 'bot-message');
+            }, 800);
+          }
+        }
+        
+        // Function to Add Message to Chat
+        function addMessage(sender, text, className) {
+          const chatMessages = document.getElementById('chat-messages');
+          const messageDiv = document.createElement('div');
+          messageDiv.classList.add(className);
+          messageDiv.innerHTML = `<strong>${sender}:</strong> ${text}`;
+          chatMessages.appendChild(messageDiv);
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Basic Chatbot Responses
+        function getBotResponse(input) {
+          const inputLower = input.toLowerCase();
+          if (inputLower.includes('order')) {
+            return 'You can track your order from your account under "Order History". Need further help?';
+          } else if (inputLower.includes('shipping')) {
+            return 'We offer standard and express shipping. Deliveries take 3-5 business days.';
+          } else if (inputLower.includes('return')) {
+            return 'You can return products within 30 days. Visit our Return Policy page for details.';
+          } else if (inputLower.includes('contact')) {
+            return 'You can contact us at support@venusmagic.com or through this chat.';
+          }
+          return "I'm here to assist you. Please ask anything about your order, shipping, or returns.";
+        }
+        </script>
+  
+  
+
+</body>
+</html>

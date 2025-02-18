@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | Venus Magic Cosmetics</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo.png" width="125px">
+                </a>
+            </div>
+            <nav>
+                <ul id="MenuItems">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="Collections.html">Collections</a></li>
+                    <li><a href="ShopAll.html">Shop All</a></li>
+                    <li><a href="Body.html">Body</a></li>
+                    <li><a href="Face.html">Face</a></li>
+                    <li><a href="Eyes.html">Eyes</a></li>
+                    <li><a href="Lips.html">Lips</a></li>
+                    <li><a href="Gift.html">Gift</a></li>
+                    <li><a href="Contact.html">Contact</a></li>
+                    <li><a href="About.html">About</a></li>
+                </ul>
+            </nav>
+            <!-- Cart Icon with Counter -->
+           <a href="cart.html" class="cart-icon">
+            <img src="images/cart.png" width="30px" height="30px" alt="Cart">
+            <span id="cart-count" class="cart-badge"></span>
+        </a>
+            <img src="images/menu.png" class="menu-icon" onclick="menutoggle()">
+        </div>
+    </div>
+
+    <!-- Product Details Section -->
+    <div class="small-container single-product">
+        <div class="row">
+            <div class="col-2">
+                <img src="images/product-20.jpg" width="100%" id="productImg">
+                
+                
+            </div>
+            <div class="col-2">
+                <p>Home / Gift Card</p>
+                <h1>Gift Card</h1>
+                <h4>$20.00</h4>
+                
+                <input type="number" value="1">
+                <button class="add-to-cart" 
+  data-id="20" 
+  data-name="Gift Card" 
+  data-price="20.00" 
+  data-image="images/product-20.jpg">
+  Add to Cart
+</button>
+                <h3>Product Details <i class="fa fa-indent"></i></h3>
+                <p>Get the perfect gift with our $20.00 gift card.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+   <div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="footer-col-1">
+                <h3>Shop </h3>
+                <ul>
+                  <li><a href="index.html">Home</a></li>
+                  <li> <a href="Collections.html">Collections</a></li> 
+                  <li><a href="ShopAll.html">Shop All</a></li>
+              </ul>
+                
+            </div>
+            <div class="footer-col-2">
+                <h3>Follow our brand </h3>
+                <p> Follow our brand on our social media platforms.</p>
+                <ul>
+                    <li>Instagram</li>
+                    <li>Facebook</li>
+                    <li>Twitter</li>
+                </ul>
+            </div>
+            <div class="footer-col-1">
+                <h3>Useful Links</h3>
+                <ul>
+                  <li><a href="Contact.html">Contact</a></li>
+                    <li>Return Policy</li>
+                    <li><a href="About.html">About</a></li>
+                </ul>
+            </div>
+      </div>   
+      <hr>
+    <p class="Copyrigth"> Copyrigth @2025 Venuz Magic Comestics | All Rights Reserved</p>
+   </div>         
+</div>
+
+    <!-- JavaScript for Image Gallery -->
+    <script>
+        var productImg = document.getElementById("productImg");
+        var smallImg = document.getElementsByClassName("small-img");
+
+        smallImg[0].onclick = function() {
+            productImg.src = smallImg[0].src;
+        }
+        smallImg[1].onclick = function() {
+            productImg.src = smallImg[1].src;
+        }
+        smallImg[2].onclick = function() {
+            productImg.src = smallImg[2].src;
+        }
+    </script>
+
+<script>
+    // Retrieve cart from local storage or initialize an empty array
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    // Function to update cart counter in navbar
+    function updateCartCount() {
+      const cartCountElement = document.getElementById('cart-count');
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      cartCountElement.innerText = totalItems > 0 ? totalItems : '';
+    }
+    
+    // Function to add item to cart
+    function addToCart(product) {
+      const existingItem = cart.find(item => item.id === product.id);
+      
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push(product);
+      }
+      
+      // Save updated cart to local storage
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      alert(`${product.name} added to cart!`);
+    }
+    
+    // Attach event listeners to Add-to-Cart buttons
+    const addToCartButtons = document.querySelectorAll('.add-to-cart');
+    addToCartButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const product = {
+          id: button.dataset.id,
+          name: button.dataset.name,
+          price: parseFloat(button.dataset.price),
+          image: button.dataset.image,
+          quantity: 1,
+        };
+        addToCart(product);
+      });
+    });
+    
+    // Show cart count on page load
+    window.onload = updateCartCount;
+    </script>
+
+</body>
+</html>
